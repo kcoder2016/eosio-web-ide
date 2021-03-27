@@ -24,6 +24,8 @@ class talk : eosio::contract {
     [[eosio::action]] void post(uint64_t id, uint64_t reply_to, eosio::name user, const std::string& content) {
         message_table table{get_self(), 0};
 
+        print("Hello=================================>, ", user);
+
         // Check user
         require_auth(user);
 
