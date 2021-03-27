@@ -45,6 +45,7 @@ class PostForm extends React.Component<{}, PostFormState> {
 
     async post() {
         try {
+            console.log("<--------------|2------------>");
             this.api.signatureProvider = new JsSignatureProvider([this.state.privateKey]);
             const result = await this.api.transact(
                 {
@@ -62,6 +63,7 @@ class PostForm extends React.Component<{}, PostFormState> {
                     expireSeconds: 30,
                 });
             console.log(result);
+            console.log("<--------------|------------>");
             this.setState({ error: '' });
         } catch (e) {
             if (e.json)
@@ -131,9 +133,12 @@ class Messages extends React.Component<{}, { content: string }> {
     componentDidMount() {
         this.interval = window.setInterval(async () => {
             try {
+                console.log("-----------print-0--------------222222222");
                 const rows = await rpc.get_table_rows({
                     json: true, code: 'talk', scope: '', table: 'message', limit: 1000,
                 });
+                console.log("-----------print--------------");
+                console.log(rows);
                 let content =
                     'id          reply_to      user          content\n' +
                     '=============================================================\n';
@@ -145,13 +150,14 @@ class Messages extends React.Component<{}, { content: string }> {
                         row.content + '\n';
                 this.setState({ content });
             } catch (e) {
+                console.log("-----------print2--------------:"+e);
                 if (e.json)
                     this.setState({ content: JSON.stringify(e.json, null, 4) });
                 else
                     this.setState({ content: '' + e });
             }
 
-        }, 200);
+        }, 10000);
     }
 
     componentWillUnmount() {
